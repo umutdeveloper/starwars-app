@@ -1,7 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
+import { AppBar, Toolbar, Typography, Button, Container, CssBaseline, Grid } from '@mui/material';
 import { increment, decrement, selectCount } from '@features/counter/counterSlice';
-import reactLogo from '@assets/react.svg';
-import viteLogo from '/vite.svg';
 import './App.css';
 
 function App() {
@@ -10,24 +9,44 @@ function App() {
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <h4>{count}</h4>
-        <button onClick={() => dispatch(decrement())}>-</button>
-        <button onClick={() => dispatch(increment())}>+</button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
+      <CssBaseline />
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Starwars App
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <Container maxWidth="sm">
+        <Grid container spacing={2} justifyContent="center" alignItems="center" direction="column" sx={{ mt: 4 }}>
+          <Grid item xs={12}>
+            <Typography variant="h4" component="h1" gutterBottom>
+              Welcome to Star Wars List
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="body1" gutterBottom>
+              Update the player counts here
+            </Typography>
+          </Grid>
+          <Grid item xs={12} container spacing={2} justifyContent="center" alignItems="center">
+            <Grid item>
+              <Button variant="contained" onClick={() => dispatch(decrement())}>-</Button>
+            </Grid>
+            <Grid item>
+              <Typography variant="h4">{count}</Typography>
+            </Grid>
+            <Grid item>
+              <Button variant="contained" onClick={() => dispatch(increment())}>+</Button>
+            </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="body2" align="center">
+              Coming soon...
+            </Typography>
+          </Grid>
+        </Grid>
+      </Container>
     </>
   );
 }
