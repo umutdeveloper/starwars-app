@@ -12,7 +12,8 @@ export default defineConfig({
     alias: {
       '@assets': '/src/assets',
       '@features': '/src/features',
-      '@store': '/src/store'
+      '@store': '/src/store',
+      '@hooks': '/src/hooks',
     }
   }
 });

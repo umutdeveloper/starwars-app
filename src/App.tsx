@@ -1,11 +1,16 @@
-import { useSelector, useDispatch } from 'react-redux';
 import { AppBar, Toolbar, Typography, Button, Container, CssBaseline, Grid } from '@mui/material';
-import { increment, decrement, selectCount } from '@features/counter/counterSlice';
+import { people } from '@features/swapi/swapiSlices';
 import './App.css';
+import { useEffect } from 'react';
+import { useAppDispatch } from '@hooks/redux';
+
 
 function App() {
-  const count = useSelector(selectCount);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(people.fetchList({ page: 1, search: '' }));
+  }, [dispatch])
 
   return (
     <>
@@ -31,18 +36,18 @@ function App() {
           </Grid>
           <Grid item xs={12} container spacing={2} justifyContent="center" alignItems="center">
             <Grid item>
-              <Button variant="contained" onClick={() => dispatch(decrement())}>-</Button>
+              <Button variant="contained">-</Button>
             </Grid>
             <Grid item>
-              <Typography variant="h4">{count}</Typography>
+              <Typography variant="h4">0</Typography>
             </Grid>
             <Grid item>
-              <Button variant="contained" onClick={() => dispatch(increment())}>+</Button>
+              <Button variant="contained">+</Button>
             </Grid>
           </Grid>
           <Grid item xs={12}>
-            <Typography variant="body2" align="center">
-              Coming soon...
+            <Typography variant="h6" gutterBottom>
+              Star Wars Characters:
             </Typography>
           </Grid>
         </Grid>
