@@ -40,12 +40,14 @@ const fetchItem = (name: string, apiPath: string) =>
     return data;
   });
 
-const statusHandler = <T>(status: APIStatus, err?: string) => (state: WritableDraft<SwapiState<T>>) => {
-  state.status = status;
-  if (err) {
-    state.error = err || 'Failed to fetch data';
-  }
-};
+const statusHandler =
+  <T>(status: APIStatus, err?: string) =>
+  (state: WritableDraft<SwapiState<T>>) => {
+    state.status = status;
+    if (err) {
+      state.error = err || 'Failed to fetch data';
+    }
+  };
 
 const withErrorHandler = <T>(state: WritableDraft<SwapiState<T>>, actionHandler: () => void) => {
   try {

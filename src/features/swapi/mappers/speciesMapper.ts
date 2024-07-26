@@ -11,9 +11,15 @@ export const mapToSpecies = (speciesResponse: JSONResponse) => {
     classification: getString(speciesResponse.classification),
     designation: getString(speciesResponse.designation),
     averageHeight: parseNumber(getString(speciesResponse.average_height)),
-    skinColors: getString(speciesResponse.skin_colors).split(',').map(color => color.trim()),
-    hairColors: getString(speciesResponse.hair_colors).split(',').map(color => color.trim()),
-    eyeColors: getString(speciesResponse.eye_colors).split(',').map(color => color.trim()),
+    skinColors: getString(speciesResponse.skin_colors)
+      .split(',')
+      .map((color) => color.trim()),
+    hairColors: getString(speciesResponse.hair_colors)
+      .split(',')
+      .map((color) => color.trim()),
+    eyeColors: getString(speciesResponse.eye_colors)
+      .split(',')
+      .map((color) => color.trim()),
     averageLifespan: parseNumber(getString(speciesResponse.average_lifespan)),
     homeworld: getIdFromUrl(getString(speciesResponse.homeworld)),
     language: getString(speciesResponse.language),

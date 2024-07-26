@@ -16,7 +16,7 @@ export const isInvalidDate = (date: Date): boolean => {
 export const getDate = (dateText: string) => {
   const date = new Date(dateText);
   if (!isInvalidDate(date)) {
-    return date;
+    return dateText;
   }
   throw new Error(`The Date is invalid: ${dateText}`);
 };

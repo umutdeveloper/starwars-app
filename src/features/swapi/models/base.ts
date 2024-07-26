@@ -21,6 +21,6 @@ export interface SwapiState<T> {
 
 export interface Base {
   id: number;
-  created: Date;
-  edited: Date;
+  created: string;
+  edited: string;
 }
