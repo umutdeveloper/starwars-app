@@ -1,9 +1,13 @@
-import { AppBar, Toolbar, Typography, Button, Container, CssBaseline, Grid } from '@mui/material';
-import { people } from '@features/swapi/swapiSlices';
-import './App.css';
-import { useEffect } from 'react';
+import { CssBaseline } from '@mui/material';
+import { lazy, Suspense, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Layout from 'components/Layout';
 import { useAppDispatch } from '@hooks/redux';
+import { people } from '@features/swapi/swapiSlices';
+import { Routes as PageRoutes } from 'utils/routes';
+import './App.css';
 
+const People = lazy(() => import('./pages/People'));
 
 function App() {
   const dispatch = useAppDispatch();
@@ -15,43 +19,16 @@ function App() {
   return (
     <>
       <CssBaseline />
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Starwars App
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Container maxWidth="sm">
-        <Grid container spacing={2} justifyContent="center" alignItems="center" direction="column" sx={{ mt: 4 }}>
-          <Grid item xs={12}>
-            <Typography variant="h4" component="h1" gutterBottom>
-              Welcome to Star Wars List
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant="body1" gutterBottom>
-              Update the player counts here
-            </Typography>
-          </Grid>
-          <Grid item xs={12} container spacing={2} justifyContent="center" alignItems="center">
-            <Grid item>
-              <Button variant="contained">-</Button>
-            </Grid>
-            <Grid item>
-              <Typography variant="h4">0</Typography>
-            </Grid>
-            <Grid item>
-              <Button variant="contained">+</Button>
-            </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant="h6" gutterBottom>
-              Star Wars Characters:
-            </Typography>
-          </Grid>
-        </Grid>
-      </Container>
+      <Router>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Navigate to={PageRoutes.People} replace />} />
+              <Route path={PageRoutes.People} element={<People />} />
+            </Route>
+          </Routes>
+        </Suspense>
+      </Router>
     </>
   );
 }
