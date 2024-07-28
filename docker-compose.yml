@@ -1,0 +1,9 @@
+name: starwars
+
+services:
+  web:
+    build: .
+    ports:
+      - '80:80'
+    environment:
+      - NODE_ENV=production
