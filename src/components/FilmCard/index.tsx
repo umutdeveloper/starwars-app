@@ -29,7 +29,7 @@ const FilmCard = React.memo<FilmCardProps>(({ film, peopleNames, onRequestPeople
           <strong>Release Date:</strong> {film.releaseDate}
         </Typography>
         <Typography variant="body2" color="textSecondary" component="p" sx={{ display: 'flex', alignItems: 'top', gap: 1 }}>
-          <strong>People:</strong> {peopleNames ? peopleNames : <Skeleton variant="rectangular" width="100%" height={22} sx={{ borderRadius: 4 }} />}
+          <strong>People:</strong> {peopleNames ? peopleNames : <Skeleton data-testid="people-skeleton" variant="rectangular" width="100%" height={22} sx={{ borderRadius: 4 }} />}
         </Typography>
       </CardContent>
     </StyledCard>

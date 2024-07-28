@@ -1,5 +1,4 @@
-import { CssBaseline } from '@mui/material';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import loadable from '@loadable/component';
 import Layout from 'components/Layout';
 import { Routes as PageRoutes } from 'utils/routes';
@@ -14,22 +13,17 @@ const Vehicles = loadable(() => import('./pages/Vehicles'));
 
 function App() {
   return (
-    <>
-      <CssBaseline />
-      <Router>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Navigate to={PageRoutes.People} replace />} />
-            <Route path={PageRoutes.People} element={<People />} />
-            <Route path={PageRoutes.Films} element={<Films />} />
-            <Route path={PageRoutes.Planets} element={<Planets />} />
-            <Route path={PageRoutes.Species} element={<Species />} />
-            <Route path={PageRoutes.Starships} element={<Starships />} />
-            <Route path={PageRoutes.Vehicles} element={<Vehicles />} />
-          </Route>
-        </Routes>
-      </Router>
-    </>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Navigate to={PageRoutes.People} replace />} />
+        <Route path={PageRoutes.People} element={<People />} />
+        <Route path={PageRoutes.Films} element={<Films />} />
+        <Route path={PageRoutes.Planets} element={<Planets />} />
+        <Route path={PageRoutes.Species} element={<Species />} />
+        <Route path={PageRoutes.Starships} element={<Starships />} />
+        <Route path={PageRoutes.Vehicles} element={<Vehicles />} />
+      </Route>
+    </Routes>
   );
 }
 

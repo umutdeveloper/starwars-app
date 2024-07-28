@@ -13,6 +13,11 @@ export default defineConfig(({ mode }) => {
     build: {
       target: 'es2015',
     },
+    test: {
+      environment: 'jsdom',
+      globals: true,
+      setupFiles: './tests/setup.js',
+    },
     resolve: {
       alias: {
         '@assets': '/src/assets',

@@ -66,29 +66,31 @@ const withErrorHandler = <T>(state: WritableDraft<SwapiState<T>>, actionHandler:
   }
 };
 
+export const initialState = {
+  count: 0,
+  pagination: {
+    search: '',
+    page: 1,
+    pageSize: 10,
+  },
+  hasNext: false,
+  hasPrev: false,
+  results: {},
+  pageResults: [],
+  requestedList: [],
+  status: 'idle',
+  itemStatus: 'idle',
+  error: null,
+};
+
 export const createSliceFor = <T>(apiPath: string, resultMapper: (result: JSONResponse) => { id: number; item: T }) => {
   const fetchListThunk = fetchList(`swapi/fetchList/${apiPath}`, apiPath);
   const fetchItemThunk = fetchItem(`swapi/fetchItem/${apiPath}`, apiPath);
   const fetchItemsThunk = fetchItems(`swapi/fetchItems/${apiPath}`, apiPath);
-  const initialState: SwapiState<T> = {
-    count: 0,
-    pagination: {
-      search: '',
-      page: 1,
-      pageSize: 10,
-    },
-    hasNext: false,
-    hasPrev: false,
-    results: {},
-    pageResults: [],
-    requestedList: [],
-    status: 'idle',
-    itemStatus: 'idle',
-    error: null,
-  };
+  const initialModelState = { ...initialState } as SwapiState<T>;
   const slice = createSlice({
     name: apiPath,
-    initialState,
+    initialState: initialModelState,
     reducers: {
       nextPage: (state) => {
         if (state.hasNext && state.status !== 'loading') {
@@ -112,16 +114,16 @@ export const createSliceFor = <T>(apiPath: string, resultMapper: (result: JSONRe
       },
       reset: (state) => {
         state.error = null;
-        state.count = initialState.count;
-        state.pagination = { ...state.pagination, ...initialState.pagination };
-        state.hasNext = initialState.hasNext;
-        state.hasPrev = initialState.hasPrev;
-        state.pageResults = initialState.pageResults;
-        state.status = initialState.status;
+        state.count = initialModelState.count;
+        state.pagination = { ...state.pagination, ...initialModelState.pagination };
+        state.hasNext = initialModelState.hasNext;
+        state.hasPrev = initialModelState.hasPrev;
+        state.pageResults = initialModelState.pageResults;
+        state.status = initialModelState.status;
       },
       clearRequestList: (state) => {
         state.requestedList = [];
-        state.itemStatus = initialState.itemStatus;
+        state.itemStatus = initialModelState.itemStatus;
       },
     },
     extraReducers: (builder) => {
