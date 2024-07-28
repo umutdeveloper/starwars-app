@@ -13,10 +13,12 @@ type Mapper<T extends Base> = (response: JSONResponse) => {
 };
 
 const createSliceDetails = <T extends Base>(apiPath: string, mapper: Mapper<T>) => {
-  const { slice, fetchList, fetchItem } = createSliceFor(apiPath, mapper);
-  const { search, nextPage, prevPage } = slice.actions;
-  return { reducer: slice.reducer, fetchList, fetchItem, search, nextPage, prevPage };
+  const { slice, fetchList, fetchItem, fetchItems } = createSliceFor(apiPath, mapper);
+  const { search, nextPage, prevPage, requestItem, reset } = slice.actions;
+  return { reducer: slice.reducer, fetchList, fetchItem, fetchItems, search, nextPage, prevPage, requestItem, reset };
 };
+
+export type SliceDetails<T extends Base> = ReturnType<typeof createSliceDetails<T>>;
 
 export const films = createSliceDetails('films', mapToFilm);
 export const people = createSliceDetails('people', mapToPerson);

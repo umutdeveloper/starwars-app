@@ -9,12 +9,16 @@ export interface SwapiListJSONResponse {
 
 export interface SwapiState<T> {
   count: number;
-  page: number;
-  search: string;
+  pagination: {
+    page: number;
+    search: string;
+    pageSize: number;
+  };
   hasNext: boolean | null;
   hasPrev: boolean | null;
   results: { [key: number]: T };
   pageResults: Array<number>;
+  requestedList: Array<number>;
   status: APIStatus;
   error: string | null;
 }

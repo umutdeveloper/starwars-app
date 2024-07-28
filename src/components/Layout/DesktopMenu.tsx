@@ -1,9 +1,9 @@
 import { Button } from '@mui/material';
 import { MENU_ITEMS } from './constants';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import React, { MouseEvent } from 'react';
+import { MouseEvent } from 'react';
 
-const DesktopMenu = React.memo(() => {
+function DesktopMenu() {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -27,6 +27,6 @@ const DesktopMenu = React.memo(() => {
       {item.text}
     </Button>
   ));
-});
+}
 
 export default DesktopMenu;

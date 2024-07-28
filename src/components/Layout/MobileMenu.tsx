@@ -1,5 +1,4 @@
 import { Drawer, List, ListItemButton, ListItemText } from '@mui/material';
-import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { MENU_ITEMS } from './constants';
 
@@ -7,7 +6,7 @@ interface MobileMenuProps {
   drawerOpen: boolean;
   toggleDrawer: () => void;
 }
-const MobileMenu = React.memo<MobileMenuProps>(({ drawerOpen, toggleDrawer }) => {
+function MobileMenu({ drawerOpen, toggleDrawer }: MobileMenuProps) {
   const location = useLocation();
   return (
     <>
@@ -21,13 +20,7 @@ const MobileMenu = React.memo<MobileMenuProps>(({ drawerOpen, toggleDrawer }) =>
       >
         <List>
           {MENU_ITEMS.map((item) => (
-            <ListItemButton
-              key={item.text}
-              component={Link}
-              to={item.to}
-              onClick={toggleDrawer}
-              selected={item.to === location.pathname}
-            >
+            <ListItemButton key={item.text} component={Link} to={item.to} onClick={toggleDrawer} selected={item.to === location.pathname}>
               <ListItemText primary={item.text} />
             </ListItemButton>
           ))}
@@ -35,6 +28,6 @@ const MobileMenu = React.memo<MobileMenuProps>(({ drawerOpen, toggleDrawer }) =>
       </Drawer>
     </>
   );
-});
+}
 
 export default MobileMenu;
