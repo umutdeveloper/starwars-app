@@ -1,6 +1,7 @@
 import { debounce, IconButton, InputAdornment, TextField } from '@mui/material';
 import React, { useCallback, useMemo, useState } from 'react';
 import Clear from '@mui/icons-material/Clear';
+import { sanitizeInput, validateInput } from 'utils/validation';
 import './SearchBox.css';
 
 const DEBOUNCE_TIME_MS = 300;
@@ -12,12 +13,16 @@ interface SearchBoxProps {
 }
 const SearchBox = React.memo<SearchBoxProps>(({ onChange, disabled, inputRef }) => {
   const [value, setValue] = useState('');
+
   const debouncedOnChange = useMemo(() => debounce((value: string) => onChange(value), DEBOUNCE_TIME_MS), [onChange]);
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
-      setValue(value);
-      debouncedOnChange(value);
+      const sanitizedValue = sanitizeInput(value);
+      if (validateInput(sanitizedValue)) {
+        setValue(value);
+        debouncedOnChange(value);
+      }
     },
     [debouncedOnChange]
   );
