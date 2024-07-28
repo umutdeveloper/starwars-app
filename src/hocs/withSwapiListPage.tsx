@@ -26,7 +26,11 @@ const withSwapiListPage = <W extends { [K in keyof W]: W[K] }, T extends Base>(
   sliceDetails: SliceDetails<T>
 ) => {
   const HOC: React.FC<SwapiListPageProps<W>> = (props) => {
-    const { pageResults, hasPrev, hasNext, count, pagination, status, dispatch } = props;
+    const { pageResults, hasPrev, hasNext, count, pagination, status, error, dispatch } = props;
+    if (error) {
+      throw new Error(error); // This will be caught by the ErrorBoundary
+    }
+
     const inputRef = useRef<HTMLInputElement>();
     const handleSearchQueryChange = useCallback((text: string) => dispatch(sliceDetails.search(text)), [dispatch]);
     const isPending = useMemo(() => status === 'loading', [status]);
