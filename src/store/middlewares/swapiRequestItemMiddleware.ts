@@ -21,7 +21,7 @@ const swapiRequestItemMiddleware: Middleware<Record<string, never>, { swapi: { [
       const actionParts = action.type.split('/');
       const sliceName = actionParts[actionParts.length - 2];
       const state = getState();
-      if (state.swapi[sliceName].status !== 'loading' && state.swapi[sliceName].requestedList.length > 0) {
+      if (state.swapi[sliceName].itemStatus !== 'loading' && state.swapi[sliceName].requestedList.length > 0) {
         const slicesObj = slices as unknown as { [key: string]: SliceDetails<Base> };
         const requestedBatch = state.swapi[sliceName].requestedList.slice(0, 5);
         const dispatchAction = slicesObj[sliceName].fetchItems(requestedBatch) as unknown as UnknownAction;

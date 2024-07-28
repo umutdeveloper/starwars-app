@@ -27,12 +27,11 @@ const withSwapiListPage = <W extends { [K in keyof W]: W[K] }, T extends Base>(
 ) => {
   const HOC: React.FC<SwapiListPageProps<W>> = (props) => {
     const { pageResults, hasPrev, hasNext, count, pagination, status, dispatch } = props;
-    const isPageRendered = useRef<boolean>(false);
     const inputRef = useRef<HTMLInputElement>();
     const handleSearchQueryChange = useCallback((text: string) => dispatch(sliceDetails.search(text)), [dispatch]);
     const isPending = useMemo(() => status === 'loading', [status]);
     const isPendingForNoItems = useMemo(() => !pageResults.length && isPending, [pageResults, isPending]);
-    const isNotFound = useMemo(() => !pageResults.length && !isPending, [pageResults, isPending]);
+    const isNotFound = useMemo(() => !pageResults.length && !isPending && status !== 'idle', [pageResults, isPending, status]);
     const goPreviousPage = useCallback(() => dispatch(sliceDetails.prevPage()), [dispatch]);
     const goNextPage = useCallback(() => dispatch(sliceDetails.nextPage()), [dispatch]);
     const totalPage = useMemo(
@@ -42,10 +41,7 @@ const withSwapiListPage = <W extends { [K in keyof W]: W[K] }, T extends Base>(
 
     useEffect(() => {
       return () => {
-        if (isPageRendered.current) {
-          dispatch(sliceDetails.reset());
-        }
-        isPageRendered.current = true;
+        dispatch(sliceDetails.reset());
       };
     }, [dispatch]);
 

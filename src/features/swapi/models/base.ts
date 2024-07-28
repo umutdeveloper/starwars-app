@@ -20,6 +20,7 @@ export interface SwapiState<T> {
   pageResults: Array<number>;
   requestedList: Array<number>;
   status: APIStatus;
+  itemStatus: APIStatus;
   error: string | null;
 }
 

@@ -1,9 +1,10 @@
 import React from 'react';
-import { Avatar, Card, CardContent, Chip, Divider, Stack, Typography } from '@mui/material';
+import { Avatar, CardContent, Chip, Divider, Stack, Typography } from '@mui/material';
 import { Person } from '@features/swapi/models/person';
 import { blue, deepOrange, green, red } from '@mui/material/colors';
 import CardBadge from './CardBadge';
 import PersonCardActions from './PersonCardActions';
+import StyledCard from 'components/Card';
 import './PersonCard.css';
 
 interface PersonCardProps {
@@ -19,7 +20,7 @@ function getPersonColor(name: string) {
 
 const PersonCard = React.memo<PersonCardProps>(({ person }) => {
   return (
-    <Card className="PersonCard">
+    <StyledCard className="PersonCard">
       <CardBadge className="PersonCard--CardBadge" />
       <CardContent className="PersonCard--Content">
         <Avatar className="PersonCard--Avatar" sx={{ backgroundColor: getPersonColor(person.name) }}>
@@ -40,7 +41,7 @@ const PersonCard = React.memo<PersonCardProps>(({ person }) => {
       </CardContent>
       <Divider className="PersonCard--Divider" />
       <PersonCardActions person={person} />
-    </Card>
+    </StyledCard>
   );
 });
 

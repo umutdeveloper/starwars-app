@@ -17,7 +17,7 @@ export const getIdFromUrl = (url: string) => {
   if (idText) {
     return parseInt(idText);
   }
-  throw new Error(`The URL is not in expected format: ${url}`);
+  return 0;
 };
 
 export const parseNumber = (number: string) => {
@@ -46,9 +46,9 @@ const fetchItems = (name: string, apiPath: string) =>
   });
 
 const statusHandler =
-  <T>(status: APIStatus, err?: string) =>
-  (state: WritableDraft<SwapiState<T>>) => {
-    state.status = status;
+  <K, T extends 'status' | 'itemStatus'>(type: T, status: APIStatus, err?: string) =>
+  (state: WritableDraft<SwapiState<K>>) => {
+    state[type] = status;
     if (err) {
       state.error = err || 'Failed to fetch data';
     }
@@ -83,6 +83,7 @@ export const createSliceFor = <T>(apiPath: string, resultMapper: (result: JSONRe
     pageResults: [],
     requestedList: [],
     status: 'idle',
+    itemStatus: 'idle',
     error: null,
   };
   const slice = createSlice({
@@ -116,13 +117,18 @@ export const createSliceFor = <T>(apiPath: string, resultMapper: (result: JSONRe
         state.hasNext = initialState.hasNext;
         state.hasPrev = initialState.hasPrev;
         state.pageResults = initialState.pageResults;
+        state.status = initialState.status;
+      },
+      clearRequestList: (state) => {
+        state.requestedList = [];
+        state.itemStatus = initialState.itemStatus;
       },
     },
     extraReducers: (builder) => {
       builder
-        .addCase(fetchListThunk.pending, statusHandler('loading'))
-        .addCase(fetchItemThunk.pending, statusHandler('loading'))
-        .addCase(fetchItemsThunk.pending, statusHandler('loading'))
+        .addCase(fetchListThunk.pending, statusHandler('status', 'loading'))
+        .addCase(fetchItemThunk.pending, statusHandler('itemStatus', 'loading'))
+        .addCase(fetchItemsThunk.pending, statusHandler('itemStatus', 'loading'))
         .addCase(fetchListThunk.fulfilled, (state, action) => {
           withErrorHandler(state, () => {
             const { count, hasNext, hasPrev, results, pageResults } = mapToState(action.payload, resultMapper);
@@ -139,7 +145,7 @@ export const createSliceFor = <T>(apiPath: string, resultMapper: (result: JSONRe
           withErrorHandler(state, () => {
             const { id, item } = resultMapper(action.payload);
             state.error = null;
-            state.status = 'succeeded';
+            state.itemStatus = 'succeeded';
             state.results[id] = item as Draft<T>;
             if (state.requestedList.includes(id)) {
               state.requestedList = state.requestedList.filter((itemId) => itemId !== id);
@@ -150,7 +156,7 @@ export const createSliceFor = <T>(apiPath: string, resultMapper: (result: JSONRe
           withErrorHandler(state, () => {
             const list = action.payload;
             state.error = null;
-            state.status = 'succeeded';
+            state.itemStatus = 'succeeded';
             list.forEach((itemResponse) => {
               const { id, item } = resultMapper(itemResponse);
               state.results[id] = item as Draft<T>;
@@ -160,9 +166,9 @@ export const createSliceFor = <T>(apiPath: string, resultMapper: (result: JSONRe
             });
           });
         })
-        .addCase(fetchListThunk.rejected, (state, action) => statusHandler('failed', action.error.message)(state))
-        .addCase(fetchItemThunk.rejected, (state, action) => statusHandler('failed', action.error.message)(state))
-        .addCase(fetchItemsThunk.rejected, (state, action) => statusHandler('failed', action.error.message)(state));
+        .addCase(fetchListThunk.rejected, (state, action) => statusHandler('status', 'failed', action.error.message)(state))
+        .addCase(fetchItemThunk.rejected, (state, action) => statusHandler('itemStatus', 'failed', action.error.message)(state))
+        .addCase(fetchItemsThunk.rejected, (state, action) => statusHandler('itemStatus', 'failed', action.error.message)(state));
     },
   });
 

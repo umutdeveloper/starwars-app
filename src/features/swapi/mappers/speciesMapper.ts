@@ -21,7 +21,7 @@ export const mapToSpecies = (speciesResponse: JSONResponse) => {
       .split(',')
       .map((color) => color.trim()),
     averageLifespan: parseNumber(getString(speciesResponse.average_lifespan)),
-    homeworld: getIdFromUrl(getString(speciesResponse.homeworld)),
+    homeworld: getIdFromUrl(getString(speciesResponse.homeworld, '')),
     language: getString(speciesResponse.language),
     people: getArray(speciesResponse.people).map((person) => getIdFromUrl(getString(person))),
     films: getArray(speciesResponse.films).map((film) => getIdFromUrl(getString(film))),

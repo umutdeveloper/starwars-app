@@ -14,8 +14,8 @@ type Mapper<T extends Base> = (response: JSONResponse) => {
 
 const createSliceDetails = <T extends Base>(apiPath: string, mapper: Mapper<T>) => {
   const { slice, fetchList, fetchItem, fetchItems } = createSliceFor(apiPath, mapper);
-  const { search, nextPage, prevPage, requestItem, reset } = slice.actions;
-  return { reducer: slice.reducer, fetchList, fetchItem, fetchItems, search, nextPage, prevPage, requestItem, reset };
+  const { search, nextPage, prevPage, requestItem, reset, clearRequestList } = slice.actions;
+  return { reducer: slice.reducer, fetchList, fetchItem, fetchItems, search, nextPage, prevPage, requestItem, reset, clearRequestList };
 };
 
 export type SliceDetails<T extends Base> = ReturnType<typeof createSliceDetails<T>>;

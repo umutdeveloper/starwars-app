@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { connect } from 'react-redux';
 import { Film } from '@features/swapi/models/film';
 import { films, people as peopleSlice } from '@features/swapi/swapiSlices';
@@ -39,6 +39,12 @@ const FilmItem = React.memo(({ film, isPending, dispatch }: FilmItemProps) => {
 
 function FilmsList({ pageResults, status, dispatch }: SwapiListPageProps<Film>) {
   const isPending = useMemo(() => status === 'loading', [status]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(peopleSlice.clearRequestList());
+    };
+  }, [dispatch]);
 
   return pageResults.map((result) => (
     <Grid key={result.id} item xs={12} sm={6} md={4} mb={4}>

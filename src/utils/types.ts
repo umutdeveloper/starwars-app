@@ -5,7 +5,7 @@ const getValue = <T>(value: unknown, checkType: (value: unknown) => value is T) 
 export const isString = (value: unknown) => typeof value === 'string';
 export const isNumber = (value: unknown) => typeof value === 'number';
 export const isArray = (value: unknown) => value instanceof Array;
-export const getString = (value: unknown) => getValue<string>(value, isString);
+export const getString = (value: unknown, bypassText?: string) => getValue<string>(value || bypassText, isString);
 export const getNumber = (value: unknown) => getValue<number>(value, isNumber);
 export const getArray = (value: unknown) => getValue<unknown[]>(value, isArray);
 export const getArrayFor = <T>(value: T[]) => getValue<T[]>(value, isArray);

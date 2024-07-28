@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Film } from '@features/swapi/models/film';
-import { Card, CardContent, CardHeader, Skeleton, Typography } from '@mui/material';
-import './FilmCard.css';
+import { CardContent, CardHeader, Skeleton, Typography } from '@mui/material';
+import StyledCard from 'components/Card';
 
 interface FilmCardProps {
   film: Film;
@@ -13,7 +13,7 @@ const FilmCard = React.memo<FilmCardProps>(({ film, peopleNames, onRequestPeople
   useEffect(() => onRequestPeopleNames(film), [onRequestPeopleNames, film]);
 
   return (
-    <Card className="FilmCard">
+    <StyledCard>
       <CardHeader title={film.title} subheader={`Episode ${film.episodeId}`} />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
@@ -32,7 +32,7 @@ const FilmCard = React.memo<FilmCardProps>(({ film, peopleNames, onRequestPeople
           <strong>People:</strong> {peopleNames ? peopleNames : <Skeleton variant="rectangular" width="100%" height={22} sx={{ borderRadius: 4 }} />}
         </Typography>
       </CardContent>
-    </Card>
+    </StyledCard>
   );
 });
 
