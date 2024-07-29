@@ -18,13 +18,14 @@ const SearchBox = React.memo<SearchBoxProps>(({ onChange, disabled, inputRef }) 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
+      if (disabled) return;
       const sanitizedValue = sanitizeInput(value);
       if (validateInput(sanitizedValue)) {
         setValue(value);
         debouncedOnChange(value);
       }
     },
-    [debouncedOnChange]
+    [debouncedOnChange, disabled]
   );
 
   const clearField = useCallback(() => {
@@ -44,7 +45,6 @@ const SearchBox = React.memo<SearchBoxProps>(({ onChange, disabled, inputRef }) 
       value={value}
       onChange={handleChange}
       autoComplete="off"
-      {...(disabled !== undefined && { disabled })}
       InputProps={{
         endAdornment: value && (
           <InputAdornment position="end">

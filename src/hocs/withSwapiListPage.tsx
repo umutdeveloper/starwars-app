@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { Box, Grid, Typography } from '@mui/material';
 import { APIStatus } from 'models/types';
 import { AppDispatch } from '@store/index';
@@ -31,7 +31,6 @@ const withSwapiListPage = <W extends { [K in keyof W]: W[K] }, T extends Base>(
       throw new Error(error); // This will be caught by the ErrorBoundary
     }
 
-    const inputRef = useRef<HTMLInputElement>();
     const handleSearchQueryChange = useCallback((text: string) => dispatch(sliceDetails.search(text)), [dispatch]);
     const isPending = useMemo(() => status === 'loading', [status]);
     const isPendingForNoItems = useMemo(() => !pageResults.length && isPending, [pageResults, isPending]);
@@ -54,16 +53,10 @@ const withSwapiListPage = <W extends { [K in keyof W]: W[K] }, T extends Base>(
       window.scrollTo(0, 0);
     }, [dispatch, pagination]);
 
-    useEffect(() => {
-      if (!isPending && pagination.page === 1) {
-        inputRef.current?.focus();
-      }
-    }, [isPending, pagination.page, pagination.search]);
-
     return (
       <>
         <PageHeader header={`${header} List (${count} ${count > 1 ? 'items' : 'item'})`} totalPage={totalPage} currentPage={pagination.page} />
-        <SearchBox inputRef={inputRef} disabled={isPending} onChange={handleSearchQueryChange} />
+        <SearchBox disabled={isPending} onChange={handleSearchQueryChange} />
         <Grid container spacing={2}>
           {isPendingForNoItems && <PlaceholderComponent />}
           {isNotFound && (
