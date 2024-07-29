@@ -1,7 +1,7 @@
 {
   "name": "starwars-app",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -50,5 +50,8 @@
     "vite": "^5.3.4",
     "vite-tsconfig-paths": "^4.3.2",
     "vitest": "^2.0.4"
+  },
+  "engines": {
+    "node": ">=20.15.1"
   }
 }
