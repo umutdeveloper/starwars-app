@@ -149,8 +149,9 @@ export const createSliceFor = <T>(apiPath: string, resultMapper: (result: JSONRe
             state.error = null;
             state.itemStatus = 'succeeded';
             state.results[id] = item as Draft<T>;
-            if (state.requestedList.includes(id)) {
-              state.requestedList = state.requestedList.filter((itemId) => itemId !== id);
+            const index = state.requestedList.indexOf(id);
+            if (index !== -1) {
+              state.requestedList.splice(index, 1);
             }
           });
         })
@@ -162,8 +163,9 @@ export const createSliceFor = <T>(apiPath: string, resultMapper: (result: JSONRe
             list.forEach((itemResponse) => {
               const { id, item } = resultMapper(itemResponse);
               state.results[id] = item as Draft<T>;
-              if (state.requestedList.includes(id)) {
-                state.requestedList = state.requestedList.filter((itemId) => itemId !== id);
+              const index = state.requestedList.indexOf(id);
+              if (index !== -1) {
+                state.requestedList.splice(index, 1);
               }
             });
           });
